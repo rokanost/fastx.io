@@ -1,0 +1,82 @@
+<template name="blog">
+    <div blog>
+        <h3>Latest news & updates</h3>
+
+        <div class="row margin-top-40">
+            {{#each blog}}
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                        <a href="/blog/{{sanitize title}}/{{id}}">
+                            <div class="hero-img" style="background-image:url('/img/{{slug}}');">
+                            </div>
+                        </a>
+                        <a href="/blog/{{sanitize title}}/{{id}}">
+                            <div class="caption"><h5>{{title}}</h5></div>
+                        </a>
+                        <p class="padding-left-10 sub-title" >{{title_description}}</p>
+                        <p class="padding-left-10 date"><b>Published:</b> {{created_date}}</p>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</template>
+
+<template name="blog_upload">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="margin-bottom-20">Blog upload</h2>
+
+            <form class="form-horizontal">
+
+                <div class="form-group">
+                    <label for="image">Hero Image (Displayed at the top of article)</label>
+                    <input type="file" id="image" name="image" required>
+                    <p class="help-block">
+                        Recommended dimensions: 1920x1200 <br/>
+                        Max size: 2MB (.png, .jpg, .gif)<br/>
+                        Need a hero image? try: <a href="https://line25.com/articles/14-mockup-templates-for-easy-website-hero-images" target="_blank">Line25</a>
+                    </p>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Title: E.g 'Crypto and the Taxman'" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="title_description" name="title_description" placeholder="Sub Heading: E.g 'What you need to know about your crypto gains/losses, come tax time.'" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <textarea class="form-control" id="body" name="body" placeholder="News Article: Any valid HTML, use <p> and <h1>, <h2>, <h3>,<b> etc." required style="height:300px;"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="hashtag_csv" name="hashtag_csv" placeholder="Tags example: Bitcoin, News, Crypto" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="email" name="author_email" placeholder="Author's Email" required>
+                </div>
+                </div>
+                <div class="form-group">
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="name" name="author_name" placeholder="Author's name" required>
+                </div>
+                </div>
+
+                <div class="form-group">
+                <div class="col-sm-10 margin-top-20">
+                    <button type="submit" class="btn btn-primary">Submit your article!</button>
+                </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>

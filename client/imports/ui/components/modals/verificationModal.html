@@ -1,0 +1,164 @@
+<template name="verificationModal">
+    <div class="modal fade" id="verificationModal" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            <!-- Header -->
+            <div class="modal-header text-center">
+              {{#if isEqual user.kyc_status "PENDING"}}
+                <h4 class="modal-title">Pending verification</h4>
+              {{else}}
+                <h4 class="modal-title">Verification required</h4>
+                {{#if isEqual levelTpl 1}}
+                  <p>It is a legal requirement for us to verify your identity.</p>
+                {{/if}}
+                {{#if isEqual levelTpl 2}}
+                  <p>We need to verify your payment method</p>
+                {{/if}}
+              {{/if}}
+            </div>
+  
+            <!-- Body -->
+            <div class="modal-body padding-top-0"> 
+
+              {{#if isEqual levelTpl 1}}
+                <!-- KYC lvl 1 -->
+                {{#if isEqual user.kyc_status "PENDING"}}            
+                  <!-- Submitted: Pending review -->
+                  <div class="text-center">
+                    <h1 class="margin-top-0"><i class="far fa-clock"></i></h1>
+                    Thank you for submitting your documentation.<br/>
+                    You will be notified by email once we have completed our verification checks.
+                  </div>
+
+                {{else}}
+                  <!-- Form to submit -->
+                  <form id="personal-info">
+                    {{#if isEqual step 1}}
+                      <!-- Basic information -->
+                      <p class="text-center">Please provide some basic information below</p>
+                      <div class="input-group input-group-md">
+                        <span class="input-group-addon"><i class="fas fa-user"></i></span>
+                        <input id="first_name" type="text" class="form-control" placeholder="First name" value="{{user.first_name}}" required>
+                      </div>
+                      <div class="input-group input-group-md">
+                        <span class="input-group-addon"><i class="far fa-user"></i></span>
+                        <input id="last_name" type="text" class="form-control" placeholder="Last name" value="{{user.last_name}}" required>
+                      </div>
+                      <div class="input-group input-group-md">
+                        <span class="input-group-addon"><i class="fas fa-birthday-cake"></i></span>
+                        <input type="text" autocomplete="off" class="form-control" placeholder="Date of birth" id="dob" name="dob" value="{{user.dob}}" min="1900-01-01" max="2018-01-01" onfocus="(this.type='date')" required>
+                      </div>
+                      <div class="input-group input-group-md">
+                        <span class="input-group-addon"><i class="fas fa-map-marker-alt"></i></span>
+                        <input id="address" name="address" type="text" class="form-control" placeholder="Address" value="{{user.address}}" required>
+                      </div>
+                      <div class="text-center margin-top-20">
+                        <input id="registerBtn" type="submit" class="btn btn-primary" value="Continue" data-loading-text="Verifying..">
+                      </div>
+                    {{/if}}
+
+                    {{#if isEqual step 2}} 
+                        <!-- Manual verification (upload) -->
+                        <p class="text-center">Please provide some identification</p>
+                        <div class="input-group input-group-md" style="margin:0 auto 20px;">
+                          <div class="dropdown" id="documentsList">
+                              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                                <i class="far fa-address-card"></i> &nbsp;
+                                {{#if selectedDocument}}
+                                  {{selectedDocument.label}} 
+                                {{else}}  
+                                  Select a document
+                                {{/if}}
+                                <span class="caret"></span>
+                              </button>                          
+                              <ul class="dropdown-menu">
+                                {{#each documentsList}}
+                                  <li><a href="#">{{label}}</a></li>
+                                {{/each}}
+                              </ul>
+                          </div>
+                        </div>
+                        {{#if selectedDocument}} 
+                          {{#with selectedDocument}}      
+                            <div class="form-group">
+                              <label for="{{name}}">{{label}}</label>
+                              <input type="file" name="{{name}}" required>
+                              <p class="help-block">
+                                Please make sure document is easy to read.<br />
+                                Max size 2MB (.png, .jpg, .gif)
+                              </p>
+                            </div>
+                          {{/with}}
+                          
+                          <div class="text-center margin-top-20">
+                            <input id="registerBtn" type="submit" class="btn btn-primary" value="Submit" data-loading-text="Sending..">
+                          </div>
+                        {{/if}}
+                    {{/if}}
+                  </form>
+                {{/if}}      
+              {{/if}}
+              
+              {{#if isEqual levelTpl 2}}
+
+                {{#if isEqual user.kyc_status "FAILED"}}            
+                  <!-- Submitted wrong random amount -->
+                  <div class="text-center">
+                    <h1 class="margin-top-0"><i class="far fa-clock"></i></h1>
+                    You have entered an incorrect amount.<br />
+                    Please contact support to continue payment verification.
+                  </div>
+                {{else}}
+
+                  <!-- KYC lvl 2 -->
+                  {{#if isEqual step 1}}
+                    <!-- Random amount -->
+                    <p class="text-center">
+                      Please enter your credit card details below.<br />
+                      A small random amount will be deducted and later refunded back to your account.
+                      This will help us confirm your ownership of the card.
+                    </p>
+
+                    {{> paymentCC}}
+                  {{/if}}
+
+                  {{#if isEqual step 2}} 
+                    <!-- Confirm random amount -->
+                    <p class="text-center">
+                      Please enter the amount that we reserved.<br />
+                      It appears inside your online banking.
+                    </p>
+                    <form id="amount-confirm">
+                      <div class="input-group input-group-md">
+                        <span class="input-group-addon"><i class="fas fa-dollar-sign"></i></span>
+                        <input id="random_amount" type="text" class="form-control" placeholder="0.00" required>
+                      </div>
+                      <div class="margin-top-20 text-center">
+                        <input type="submit" class="btn btn-primary" value="Confirm">
+                      </div>
+                    </form>
+                  {{/if}}
+                {{/if}}
+              {{/if}}
+            </div>
+
+            <div class="modal-footer">
+              <a href="/"><i class="fas fa-chevron-left"></i> Return</a>
+            </div>
+          </div>
+        </div>
+    </div>
+</template>
+
+<template name="verificationCompleted">
+  <div class="text-center">
+    <div><i class="far fa-check-circle" style="font-size: 125px;color: #dddddd;"></i></div>
+    <h4 class="margin-top-20">Verification Completed</h4>
+    <div>
+        <b>You are successfully verified</b>
+    </div>
+    <div>
+      <button type="button" class="btn btn-secondary margin-top-10" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</template>

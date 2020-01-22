@@ -1,0 +1,61 @@
+<template name="support">
+
+    <!-- Heading -->
+    <div class="row text-center margin-top-20">
+        <div class="col-xs-10 col-xs-offset-1">
+            <h4>Get in touch anytime</h4>
+            <h3><b><a href="mailto:support@fastx.io">support@fastx.io</a></b></h3>
+        </div>
+    </div>
+
+
+    <div class="row welcome text-center">
+        <div class="col-md-6 col-md-offset-1">
+            <!-- Contact FORM -->
+            <form class="form-horizontal action-box" id="support-form">
+                <div class="form-group">
+                    <input class="form-control" id="name" type="text" name="name" placeholder="Your name" required>
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" id="email" type="email" name="email" placeholder="Your email" required>
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" id="subject" type="text" name="subject" placeholder="Subject:" required>
+                </div>
+
+                <div class="form-group">
+                    <textarea class="form-control" id="message" rows="7" name="message" placeholder="Message:" required></textarea>
+                </div>
+                <div style="text-align:left; margin-bottom:10px;"><b>Note: </b>If you are enquiring about a payment, please include your confirmation #.</div>
+                <div class="margin-top-20 margin-bottom-20" id="captcha">{{> reCAPTCHA}}</div>
+                <button class="btn btn-primary btn-lg btn-block" type="submit" id="support-form-submit" data-loading-text="Sending..." name="submit">Send Message</button>
+
+            </form>
+            <!-- END Contact FORM -->
+        </div>
+        <div class="col-md-4">
+
+            <div class="contact-box-left action-box">
+                    <div style="font-size:2em;"><span class="glyphicon glyphicon-phone"></span></div>
+                <h3>Phone</h3>
+                <p>
+                    <span><a href="tel:1300120091">1300120091</a></span><br>
+                </p>
+            </div>
+            <br />
+            <div class="contact-box-left action-box">
+                <div style="font-size:2em;"><span class="glyphicon glyphicon-map-marker"></span></div>
+                <h3>Address</h3>
+                <p>
+                    <a target="_blank" href="https://www.google.com/maps/place/PostNet+North+Sydney/@-33.8398301,151.2063793,17z/data=!3m1!4b1!4m5!3m4!1s0x6b12aee94e7bcff1:0xcf7f00dc6378fb5b!8m2!3d-33.8398301!4d151.208568">
+                        Suite 507 1/60 - 80 Walker Street, North Sydney NSW 2060 Australia.
+                    </a>
+                </p>
+            </div>
+
+        </div>
+
+  </div>
+</template>

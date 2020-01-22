@@ -1,0 +1,59 @@
+<template name="navbar">
+	<nav class="navbar navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/"><img src="/images/fastx_logo_dark_bg.png" alt="Logo" /></a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="{{isActive ''}}"><a href="/">Home</a></li>
+					<li class="{{isActive 'blog'}}"><a href="/blog">News & Updates</a></li>-
+					<li class="{{isActive 'about'}}"><a href="/about">About</a></li>
+					<li class="{{isActive 'support'}}"><a href="/support">Support</a></li>
+					<li class="{{isActive 'faq'}}"><a href="/faq">FAQ</a></li>
+					<li><a href="/api">API</a></li>
+					<li class="{{isActive 'status'}}"><a href="/status">Status</a></li>
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right">
+					{{#unless notLoggedIn}}
+						<li><a href="#">Welcome, <b>{{user.first_name}}</b> - KYC level {{user.kyc_level}}</a></li>
+					{{/unless}}
+					<li class="text-center">
+						<div class="btn-group">
+							{{#if notLoggedIn}}
+								<a class="btn btn-sm navbar-btn btn-default" href="/login">
+									<i class="fas fa-sign-in-alt"></i> &nbsp; LOGIN
+								</a>
+								<a class="btn btn-sm navbar-btn btn-default" href="/register">
+									<i class="fas fa-user"></i> &nbsp; REGISTER
+								</a>
+							{{else}}
+								<a class="btn btn-sm navbar-btn btn-default" id="logout" data-loading-text="Logging out..." href="#">
+									<i class="fas fa-sign-out-alt"></i> &nbsp; Logout
+								</a>
+							{{/if}}
+						</div>
+					</li>
+
+					<!--
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">BTC</a>
+						<ul class="dropdown-menu">
+							{{#each cryptos}}
+								<li><a href="#"><img src="/images/icons/{{crypto_code}}.png"> {{crypto_name}}</a></li>
+							{{/each}}
+						</ul>
+					</li>
+					-->
+        </ul>
+			</div>
+		</div>
+	</nav>
+</template>

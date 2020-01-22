@@ -1,0 +1,31 @@
+<template name="loginModal">
+    <div class="modal fade" id="loginModal" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+
+                <!-- Modal header -->
+                <div class="modal-header text-center">
+                    {{#if showLogin}}
+                        <h4 class="modal-title">Login</h4>
+                        <p>Please login to continue.</p>
+                        <a id="showRegister" href="#">Not registered? Register</a>
+                    {{else}}
+                        <h4 class="modal-title">Register</h4>
+                        <p>You must register in order to continue.</p>
+                        <a id="showLogin" href="#">Already registered? Login</a>
+                    {{/if}}
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body padding-top-0">
+                    {{#if showLogin}}
+                        {{> loginForm}}
+                    {{else}}
+                        {{> registerForm data=this}}
+                    {{/if}}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>

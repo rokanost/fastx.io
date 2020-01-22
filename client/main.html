@@ -1,0 +1,115 @@
+<head>
+	<meta charset="utf-8">
+	<meta name="ahrefs-site-verification" content="c35783300749f9517ddb64b47984dce52ee2dbe8d3d00660c7f224586cb31ac2">
+
+	<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+	<script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
+	<script>window.prerenderReady = false;</script>	<!-- Tell pre-render were not ready yet. -->
+	<!-- Add google analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37883383-3"></script>
+	<!-- Add faceboook SDK-->
+	<script src="https://connect.facebook.net/en_US/sdk.js"></script>
+	
+	<!-- Add PayID -->
+	<script src="/js/payid.js"></script>
+
+	<script>
+		// Add Google Analytics if not localhost
+		if(window.location.href.indexOf("localhost") === -1)
+		{
+			console.log("Google Analytics Added");
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'UA-37883383-3');
+		}		
+	</script>
+
+	<!-- Google structured data -->
+	<script type="application/ld+json">
+		{
+			"@context": "http://schema.org",
+			"@type": "Organization",
+			"url": "https://www.fastx.io",
+			"logo": "https://fastx.io/images/fastx_logo.jpg"
+		},
+		{
+			"@context" : "http://schema.org",
+			"@type" : "Organization",
+			"name" : "FastX",
+			"url" : "https://www.fastx.io",
+			"sameAs" : [
+				"https://www.facebook.com/fastxcrypto",
+				"https://twitter.com/fastxcrypto",
+				"https://linkedin.com/company/fastx"
+			]
+		},
+		{
+			"@context": "http://schema.org",
+			"@type": "Organization",
+			"url": "https://www.fastx.io/support",
+			"contactPoint": [
+					{ "@type": "ContactPoint",
+					"telephone": "1300120091",
+					"contactType": "customer service"
+					}
+			]
+		}
+	</script>
+	<!-- End Google Structured Data -->
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+</head>
+
+<body>
+
+	{{#if isNotConnected}}
+		{{> status}}
+	{{/if}}
+
+	{{> sAlert}}
+
+	<!-- Load Facebook SDK for JavaScript -->
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) return;
+	js = d.createElement(s); js.id = id;
+	js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+	fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+
+	FB.init({
+		appId      : '268166197199861',
+		status     : true,
+		xfbml      : true,
+		version    : 'v3.2'
+	});
+	</script>
+
+	<!-- Your customer chat code -->
+	<div class="fb-customerchat"
+	attribution=setup_tool
+	page_id="548715952167551"
+	logged_in_greeting="Do you know that you can Buy and Sell crypto instantly? Ask for help if stuck"
+	logged_out_greeting="Do you know that you can Buy and Sell crypto instantly? Ask for help if stuck">
+	</div>
+</body>
+
+<template name="status">
+	<div class="s-alert-box s-alert-bottom-left s-alert-is-effect s-alert-effect-stackslide s-alert-show">
+      <div class="s-alert-box-inner">
+		<p>
+			{{#if isEqual status "connecting"}}
+				Connecting...
+			{{/if}}
+
+			{{#if isEqual status "waiting"}}
+				Connection lost.<br />Reconnecting in {{retryTime}}s
+				<br />
+				<a href="#" onClick="Meteor.reconnect()">Retry now</a>
+			{{/if}}
+        </p>
+      </div>
+  </div>
+</template>

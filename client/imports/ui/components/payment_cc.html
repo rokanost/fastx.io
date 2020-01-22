@@ -1,0 +1,52 @@
+<template name="paymentCC">
+	  <form id="paymentAdd">
+	    <div class="row">
+	      <div class="col-sm-12">
+			<div class="input-group">
+				<label>Card Number</label>
+				<input type="text" placeholder="4140000000000001" class="form-control" id="cc-number" required>
+			</div>
+	      </div>
+	    </div>
+	    <div class="row">
+				<div class="form-group col-sm-9">
+					<div class="row">
+						<label class="col-xs-12">Expiration Date</label>
+						<div class="col-xs-8">
+							<select class="form-control" id="cc-month" required>
+								<option value="">Month</option>
+								<option value="01">01 - January</option>
+								<option value="02">02 - February</option>
+								<option value="03">03 - March</option>
+								<option value="04">04 - April</option>
+								<option value="05">05 - May</option>
+								<option value="06">06 - June</option>
+								<option value="07">07 - July</option>
+								<option value="08">08 - August</option>
+								<option value="09">09 - September</option>
+								<option value="10">10 - October</option>
+								<option value="11">11 - November</option>
+								<option value="12">12 - December</option>
+							</select>
+						</div>
+						<div class="col-xs-4">
+							 <select class="form-control" id="cc-year" required>
+								 <option value="">Year</option>
+								 {{#each yearList}}
+								 	<option value="{{this}}">{{this}}</option>
+								 {{/each}}
+							 </select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group col-sm-3">
+					<label>CVV</label>
+					<!--  Hosted Fields div container -->
+					<input type="text" placeholder="000" class="form-control" id="cc-cvv">
+				</div>
+	    </div>
+		<div class="margin-top-20 text-center">
+			<input type="submit" class="btn btn-primary" value="Confirm">
+		</div>
+	  </form>
+</template>

@@ -1,0 +1,55 @@
+<template name="loginForm">
+
+    {{#if isPwdRstClicked}}
+      {{> forgot_pwd}}
+    {{else}}
+      <form id="login-form" autocomplete="off">
+          <div class="input-group input-group-lg">
+            <span class="input-group-addon"><i class="far fa-envelope-open"></i></span>
+            <input id="email" type="email" class="form-control" placeholder="Email" required>
+          </div>
+          <div class="input-group input-group-lg">
+            <span class="input-group-addon"><i class="fas fa-key"></i></span>
+            <input id="password" type="password" class="form-control" placeholder="Password" required>
+          </div>
+          <br/>
+          <div class="margin-top-20 margin-bottom-20" id="captcha">{{> reCAPTCHA}}</div>
+          <div class="text-center">
+            <input id="loginBtn" type="submit" class="btn btn-primary" style="width:50%;" value="Login" data-loading-text="Validating..">
+          </div>
+      </form>
+    {{/if}}
+    <div class="text-center margin-top-5">
+      {{#if isPwdRstClicked}}
+        <a id="backToLogin" href="#">Go back to login</a>
+      {{else}}
+        <a id="forgotPassword" href="#">Forgot your password?</a>
+      {{/if}}
+    </div>
+
+    <!-- MFA Modal -->
+    <div class="modal fade" id="MFAModal" role="dialog">
+        <form id="check-mfa-form">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Multi Factor Authentication</h4>
+              </div>
+              <div class="modal-body">
+                  <p>Your account is secured using Multie Factor Authentication (MFA). To finish logging in, turn on your MFA device and type the authentication code below.</p>
+                  <div class="input-group input-group-lg">
+                    <input id="mfa_token" type="text" class="form-control" placeholder="MFA Code" maxlength="6" required>
+                  </div>
+                  <br />
+                  <div class="my-alert alert alert-danger fade" role="alert"></div>
+              </div>
+              <div class="modal-footer">
+                <button id="submitMFAToken" type="submit" class="btn btn-primary" data-loading-text="Validating..">Submit</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </form>
+    </div>
+</template>

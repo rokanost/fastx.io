@@ -1,0 +1,239 @@
+<template name="index">
+
+  <div index-page>
+    <div class="row">
+
+      <div class="col-sm-12 action-box margin-top-40">
+
+          <div class="btn-group" id="currencies">
+            {{#each currencies}}
+              <button type="button" class="btn btn-primary">{{currency_code}}</button>
+            {{/each}}
+          </div>
+
+          {{> reactiveTable settings=rates}}
+      </div>
+
+      <div class="col-md-10 col-md-offset-1">
+
+        <!-- Heading and main form -->
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-2">
+                {{#if codeFrom}}
+                  {{#if codeTo}}
+                    <div class="text-center form-inline currency-select margin-top-20">
+                      <form autocomplete="off">
+                        <div>
+                          <div class="input-group input-group-lg highlight">
+                            <span class="input-group-addon">Send</span>
+                            <input type="number" id="inputAmount" value="{{inputAmount}}" class="form-control" placeholder="0.00" required>
+                            <span class="input-group-addon">{{codeFrom}}</span>
+                          </div>
+                          <div class="input-group input-group-lg highlight">
+                            <span class="input-group-addon">Receive</span>
+                            <input type="number" id="outputAmount" value="{{outputAmount}}" class="form-control" placeholder="0.00" required>
+                            <span class="input-group-addon">{{codeTo}}</span>
+                          </div>
+                        </div>
+
+                        <div class="margin-top-5">
+                          <small class="inline-block">
+                            1 {{codeFrom}} = {{currentRate}} {{codeTo}}
+                          </small><br />
+                          <small class="text-muted">
+                            1 {{codeTo}} = {{inversedRate currentRate decimalsFrom}} {{codeFrom}}
+                          </small>
+                        </div>
+
+                        {{#if isNotEmpty inputAmount}}
+                          <div class="methods">
+                            {{#each methods}}
+                              <label class="radio-inline" title="{{title}}" data-toggle="tooltip" data-placement="{{placement}}">
+                                <input type="radio" name="is_precise" value="{{@index}}" {{isChecked name selectedMethod.name}}>
+                                <span>{{name}}</span>
+                              </label>
+                            {{/each}}
+                          </div>
+                        {{/if}}
+
+                      </form>
+                    </div>
+                  {{/if}}
+                {{/if}}
+ 
+
+            {{#if isNotEmpty inputAmount}}
+              {{#if codeFrom}}
+                {{#if codeTo}}
+                  <div class="row payment_forms">
+                    <div class="col-sm-8 col-sm-offset-2 action-box">
+                      <form role="form">
+                        {{#if isCryptoOutput}}
+                          <!-- Crypto output form -->
+                          {{> cryptoOutputForm
+                              codeTo=codeTo
+                              codeFrom=codeFrom
+                            }}
+
+                        {{else}}
+
+                          <div class="btn-group payment-select">
+                            {{#if isMoreThan paymentTypes.length 1}}
+                            <!-- Fiat output payment methods -->
+                            {{#with selectedPayment}}
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <img src="/images/icons/{{type.toLowerCase}}.png"> {{name}} <span class="caret"></span>
+                              </button>
+                            {{/with}}
+                            <ul id="paymentType" class="dropdown-menu dropdown-menu-left">
+                              {{#each paymentTypes}}
+                                <li><img src="/images/icons/{{type.toLowerCase}}.png"> {{name}}</li>
+                              {{/each}}
+                            </ul>
+                            {{else}}
+                              {{#with selectedPayment}}
+                                  <img src="/images/icons/{{type.toLowerCase}}.png"> {{name}}
+                              {{/with}}
+                            {{/if}}
+                          </div>
+
+
+
+                          {{#if isMoreThan countries.length 1}}
+                          <div class="btn-group country-select pull-right">
+                            <!-- Countries -->
+                            {{#with selectedCountry}}
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <img src="/images/flags/{{country_code}}.png"> <span class="caret"></span>
+                              </button>
+                            {{/with}}
+                            <ul id="countries" class="dropdown-menu dropdown-menu-left">
+                              {{#each countries}}
+                                <li><img src="/images/flags/{{country_code}}.png"> {{country_name}}</li>
+                              {{/each}}
+                            </ul>
+                          </div>
+                          {{/if}}
+
+                          <!-- Dynamically load the form based on region and payment type selected -->
+                          <div class="margin-top-20">
+                            {{> Template.dynamic template=paymentTemplate.name data=paymentTemplate.data}}
+                          </div>
+                        {{/if}}
+
+                        <div class="form-group margin-top-20">
+                          <input type="submit" class="btn btn-block btn-primary" value="Submit" data-loading-text="Processing...">
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                {{/if}}
+              {{/if}}
+            {{/if}}
+          </div>
+
+          <div class="col-sm-12 margin-top-40">
+              <div class="row">
+    
+                <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-0 content-block"> 
+                  <div class="row"> 
+                    <div class="col-md-3 icon-block"> 
+                      <i class="far fa-smile-beam"></i>
+                    </div> 
+                    <div class="col-md-9"> 
+                      <h4>EASY</h4> 
+                      <p>
+                        Choose your crypto, enter details,
+                        create an account and send your funds.
+                      </p> 
+                    </div> 
+                  </div> 
+                </div> 
+
+                <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-0 content-block"> 
+                    <div class="row"> 
+                      <div class="col-md-3 icon-block"> 
+                        <i class="fas fa-bolt"></i>
+                      </div> 
+                      <div class="col-md-9"> 
+                        <h4>FAST</h4> 
+                        <p>
+                          No more waiting around. Get verified in seconds.
+                          We use PayID by Osko for instant deposits and withdrawals.
+                        </p> 
+                      </div>
+                    </div> 
+                  </div> 
+                            
+                  
+                <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-0 content-block"> 
+                  <div class="row"> 
+                    <div class="col-md-3 icon-block"> 
+                      <i class="fas fa-shield-alt"></i>
+                    </div> 
+                    <div class="col-md-9"> 
+                      <h4>SECURE</h4> 
+                      <p>
+                        As a non-custodial exchange, we don’t hold your deposits, 
+                        so your funds are never vulnerable to hacks. 
+                      </p> 
+                    </div> 
+                  </div> 
+                </div> 
+
+
+              </div> 
+            </div>
+
+        </div>
+
+        
+        <div class="row margin-top-40">   
+          {{#if isNotEmpty (conversions 'showMyOnly')}}
+            <!-- Your payments -->
+            <div class="col-sm-6 col-sm-offset-3 action-box margin-top-40">
+              <!-- My log -->
+              <h5 class="margin-top-0 bold">My transactions</h5>
+                {{#each (conversions 'showMyOnly')}}
+                  <div class="row my-conversion">
+                    <div class="col-sm-7 no-wrap">
+                      <img src="/images/icons/{{input_code}}.png" alt="{{input_code}}">
+                      <b>{{input_amount}} {{input_code}}</b>
+                      <span class="glyphicon glyphicon-arrow-right margin-0-10"></span>
+                      <img src="/images/icons/{{output_code}}.png" alt="{{output_code}}">
+                      <b>{{output_amount}} {{output_code}}</b>
+                    </div>
+                    <div class="col-sm-5 col-xs-12 text-right">
+                      <span class="small-text">{{statuses status_id}}: {{time_ago}}</span>
+                    </div>
+                  </div>
+                {{/each}}
+            </div>
+          {{/if}}
+
+
+          <!-- {{#if isNotEmpty conversions}}
+            <div class="col-sm-5 action-box margin-top-40">
+                <h5 class="margin-top-0 bold">Last transactions</h5>
+                  {{#each conversions}}
+                    <div class="row conversion-list">
+                      <div class="col-sm-7 no-wrap">
+                        <img src="/images/icons/{{input_code}}.png" alt="{{input_code}}">
+                        <b>{{input_amount}} {{input_code}}</b>
+                        <span class="glyphicon glyphicon-arrow-right margin-0-10"></span>
+                        <img src="/images/icons/{{output_code}}.png" alt="{{output_code}}">
+                        <b>{{output_amount}} {{output_code}}</b>
+                      </div>
+                      <div class="col-sm-5 col-xs-12 text-right">
+                        <span class="small-text">{{statuses status_id}} {{time_ago}}</span>
+                      </div>
+                    </div>
+                  {{/each}}
+              </div>
+          {{/if}} -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,360 @@
+SET NAMES utf8;
+
+CREATE TABLE `api_docs` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `endpoint` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `method` varchar(10) NOT NULL,
+  `request_sample` text NOT NULL,
+  `response_sample` text NOT NULL,
+  `is_public` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `bank_balances` (
+  `bank_name` varchar(50) NOT NULL,
+  `updated_timestamp` timestamp NULL DEFAULT NULL,
+  `currency_code` varchar(10) NOT NULL,
+  `balance` decimal(12,2) NOT NULL,
+  PRIMARY KEY (`bank_name`,`currency_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `bank_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `currency_code` varchar(10) NOT NULL COMMENT 'AUS, USA etc',
+  `country_code` varchar(5) NOT NULL,
+  `bank_name` varchar(255) DEFAULT NULL,
+  `account_name` varchar(512) DEFAULT NULL,
+  `number` varchar(255) DEFAULT NULL,
+  `bsb` varchar(10) DEFAULT NULL,
+  `bpay_biller_code` varchar(50) DEFAULT NULL,
+  `bpay_reference` varchar(50) DEFAULT NULL,
+  `payid_type` varchar(50) DEFAULT NULL,
+  `payid` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `payid` (`payid`) USING BTREE,
+  KEY `bank` (`account_name`,`number`,`bsb`,`country_code`) USING BTREE,
+  KEY `bpay` (`bpay_biller_code`,`bpay_reference`) USING BTREE,
+  KEY `b_id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `blog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `author_name` varchar(255) DEFAULT NULL,
+  `author_email` varchar(255) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `hero_img_id` int(11) DEFAULT NULL,
+  `title` varchar(512) DEFAULT NULL,
+  `title_description` varchar(512) DEFAULT NULL,
+  `body` text,
+  `upvotes` int(11) DEFAULT '1',
+  `hashtag_csv` varchar(512) DEFAULT NULL,
+  `is_approved` tinyint(1) DEFAULT '0',
+  `is_sent_social` tinyint(1) DEFAULT '0',
+  `social_text` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Unique title` (`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `bpay_codes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `biller_code` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `date_time` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `conversion_rates` (
+  `code_from` varchar(10) NOT NULL,
+  `code_to` varchar(10) NOT NULL,
+  `rate` decimal(16,8) unsigned NOT NULL,
+  `rate_without_fee` decimal(16,8) unsigned NOT NULL,
+  `datetime` datetime NOT NULL,
+  PRIMARY KEY (`code_from`,`code_to`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `conversions` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `tag` int(11) unsigned DEFAULT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `input_code` varchar(10) NOT NULL,
+  `input_amount` decimal(16,8) unsigned NOT NULL,
+  `input_info_id` int(11) unsigned DEFAULT NULL,
+  `output_code` varchar(10) NOT NULL,
+  `output_amount` decimal(16,8) unsigned NOT NULL,
+  `output_info_id` int(11) unsigned NOT NULL,
+  `datetime` datetime NOT NULL,
+  `type_id` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `is_precise` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `status_id` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `exchange_name` varchar(50) DEFAULT NULL,
+  `input_amount_sent_to_exchange` decimal(16,8) DEFAULT NULL,
+  `sell_order_code_to` varchar(10) DEFAULT NULL,
+  `sell_order_price` decimal(16,8) DEFAULT NULL,
+  `amount_withdrawn` decimal(16,8) DEFAULT NULL,
+  `amount_withdrawn_to_exchange` varchar(50) DEFAULT NULL,
+  `output_aud_rate_at_the_time` decimal(16,8) unsigned DEFAULT NULL,
+  `output_prepared_datetime` datetime DEFAULT NULL,
+  `output_process_started_datetime` datetime DEFAULT NULL,
+  `output_sent_datetime` datetime DEFAULT NULL,
+  `refund_address` varchar(100) DEFAULT NULL,
+  `description` varchar(512) DEFAULT NULL,
+  `ip` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `c_id` (`id`,`status_id`) USING BTREE,
+  UNIQUE KEY `c_uuid` (`uuid`) USING BTREE,
+  KEY `c_user` (`user_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `countries` (
+  `country_code` varchar(10) NOT NULL,
+  `country_name` varchar(255) NOT NULL,
+  `currency_code` varchar(10) NOT NULL,
+  `is_disabled` tinyint(1) unsigned NOT NULL,
+  PRIMARY KEY (`country_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `country_documents` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `country_code` varchar(10) NOT NULL,
+  `doc_code` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `cron_history` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `intendedAt` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `startedAt` timestamp NULL DEFAULT NULL,
+  `finishedAt` timestamp NULL DEFAULT NULL,
+  `result` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `error` text COLLATE utf8mb4_unicode_ci,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `intendedAtname` (`intendedAt`,`name`),
+  KEY `startedAt` (`startedAt`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `cryptos` (
+  `crypto_code` varchar(10) NOT NULL,
+  `crypto_name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `min_price_check_amount` decimal(10,2) NOT NULL,
+  `erc20_contract_address` varchar(255) DEFAULT NULL,
+  `decimals` tinyint(3) unsigned NOT NULL DEFAULT '8',
+  `buy_fee_percent` decimal(8,2) unsigned NOT NULL,
+  `sell_fee_percent` decimal(8,2) unsigned NOT NULL,
+  `buy_disabled` tinyint(1) NOT NULL,
+  `sell_disabled` tinyint(1) NOT NULL,
+  `is_disabled` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`crypto_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `currencies` (
+  `currency_code` varchar(10) NOT NULL,
+  `currency_name` varchar(255) NOT NULL,
+  `is_disabled` tinyint(1) unsigned NOT NULL,
+  `buy_fee_percent` decimal(8,2) unsigned NOT NULL,
+  `sell_fee_percent` decimal(8,2) unsigned NOT NULL,
+  PRIMARY KEY (`currency_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `currency_rates` (
+  `code_from` varchar(10) NOT NULL,
+  `code_to` varchar(10) NOT NULL,
+  `rate` decimal(12,4) NOT NULL,
+  `datetime` datetime NOT NULL,
+  PRIMARY KEY (`code_from`,`code_to`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `exchange_balances` (
+  `exchange_name` varchar(50) NOT NULL,
+  `updated_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `currency_code` varchar(10) NOT NULL,
+  `exchange_wallet_address` varchar(255) NOT NULL,
+  `tag` int(11) DEFAULT NULL,
+  `balance` decimal(12,8) NOT NULL,
+  `locked` decimal(12,8) NOT NULL,
+  PRIMARY KEY (`exchange_name`,`currency_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `exchange_fees` (
+  `code` varchar(10) NOT NULL,
+  `exchange` varchar(50) NOT NULL,
+  `amount` decimal(10,8) NOT NULL,
+  PRIMARY KEY (`code`,`exchange`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `exchange_rates` (
+  `code_from` varchar(10) NOT NULL,
+  `code_to` varchar(10) NOT NULL,
+  `exchange` varchar(50) NOT NULL,
+  `bid_price` decimal(16,8) NOT NULL,
+  `bid_amount` decimal(16,4) NOT NULL,
+  `ask_price` decimal(16,8) NOT NULL,
+  `ask_amount` decimal(16,4) NOT NULL,
+  `datetime` datetime NOT NULL,
+  PRIMARY KEY (`code_from`,`code_to`,`exchange`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `exchange_rates_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code_from` varchar(10) NOT NULL,
+  `code_to` varchar(10) NOT NULL,
+  `exchange` varchar(50) NOT NULL,
+  `bid_price` decimal(16,8) NOT NULL,
+  `ask_price` decimal(16,8) NOT NULL,
+  `datetime` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `date` (`datetime`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `fbusers` (
+  `id` bigint(16) unsigned NOT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `kyc_documents` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `img` longtext NOT NULL,
+  `verified` datetime DEFAULT NULL,
+  `datetime` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `large_objects` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `slug` varchar(512) NOT NULL,
+  `data` mediumtext,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE `login_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `session_ip` varchar(50) NOT NULL,
+  `result` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `payid_companies` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `payid` varchar(255) NOT NULL,
+  `payid_type` varchar(50) NOT NULL,
+  `webhook_url` varchar(512) NOT NULL,
+  `access_key` varchar(36) NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uuid` (`email`,`payid`,`access_key`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `payid_orders` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) unsigned NOT NULL,
+  `company_id` int(11) unsigned NOT NULL,
+  `amount` decimal(8,2) unsigned NOT NULL,
+  `amount_paid` decimal(8,2) NOT NULL,
+  `token` varchar(36) NOT NULL,
+  `webhook_sent` tinyint(1) unsigned NOT NULL,
+  `webhook_retries` tinyint(1) unsigned NOT NULL,
+  `status` varchar(50) NOT NULL DEFAULT '',
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uuid` (`token`) USING BTREE,
+  KEY `id` (`id`),
+  KEY `state` (`status`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `payid_txs` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `puId` varchar(255) NOT NULL,
+  `paidTo` varchar(255) NOT NULL,
+  `amount` decimal(8,2) NOT NULL,
+  `reference` varchar(255) NOT NULL,
+  `currency` varchar(10) NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq` (`puId`) USING BTREE,
+  KEY `i` (`id`) USING BTREE,
+  KEY `date` (`created`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE `settings` (
+  `name` varchar(50) NOT NULL,
+  `value` varchar(50) NOT NULL,
+  `is_private` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+--  Records of `settings`
+-- ----------------------------
+BEGIN;
+INSERT INTO `settings` VALUES ('automated_payouts', '1', '1'), ('autoverify_docs', '1', '1'), ('keep_aud_amount_on_exchange', '5000', '1'), ('maintenance', '0', '0'), ('max_conversion_amount_aud_equivalent', '1000', '1'), ('min_conversion_amount_aud_equivalent', '50', '1'), ('order_fill_up_seconds', '30', '1'), ('outdated_price_hours', '1', '1'), ('run_payid', '1', '1');
+COMMIT;
+
+CREATE TABLE `sms` (
+  `message_id` varchar(20) NOT NULL,
+  `datetime` datetime NOT NULL,
+  PRIMARY KEY (`message_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password_hash` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `auth_token` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `auth_token_created_timestamp` timestamp NULL DEFAULT NULL,
+  `default_currency_code` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'AUD',
+  `session_ip` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `session_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `session_token_created_timestamp` timestamp NULL DEFAULT NULL,
+  `verification_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `verification_token_created_timestamp` timestamp NULL DEFAULT NULL,
+  `failed_login_count` tinyint(3) NOT NULL DEFAULT '0',
+  `block_login_timestamp` timestamp NULL DEFAULT NULL,
+  `mfa_enabled` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'If 1 then it will prompt user for MultiFactorAuth at login',
+  `mfa_secret` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_verified` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `email_verification_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kyc_level` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `kyc_status` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cc_ending` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `random_amount` decimal(8,2) DEFAULT NULL,
+  `is_admin` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`) USING BTREE,
+  UNIQUE KEY `uuid` (`uuid`) USING BTREE,
+  KEY `id` (`id`,`is_admin`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4;
+
+CREATE TABLE `wallet_info` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `crypto_code` varchar(10) NOT NULL,
+  `crypto_address` varchar(100) NOT NULL,
+  `pending_balance` decimal(16,8) unsigned NOT NULL,
+  `confirmed_balance` decimal(16,8) unsigned NOT NULL,
+  `updated` datetime NOT NULL,
+  `is_owned` tinyint(1) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `w_id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

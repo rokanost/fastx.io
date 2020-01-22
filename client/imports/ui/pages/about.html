@@ -1,0 +1,83 @@
+<template name="about">
+
+  <div about-page>
+
+    <!-- Heading -->
+    <div class="row text-center margin-top-20">
+      <div class="col-xs-10 col-xs-offset-1">
+        <h4>Our Mission</h4>
+        <h3><i>Make selling and buying crypto currencies an ease.</i></h3>
+      </div>
+    </div>
+
+    <!-- blurb -->
+    <div class="row text-center margin-top-40">
+        <div class="col-xs-10 col-xs-offset-1">
+            <h4>Welcome to FastX</h4>
+            <p>
+              FastX is designed to be as simple and quick to use as possible.<br/>
+              A critical part in owning any crypto currency is being able to cash it out
+              <b>quickly</b>, <b>easily</b> and without having to pay any <b>fees.</b><br/>
+              You can also purchase crypto with your credit card.<br />
+              We hope you enjoy using FastX!
+            </p>
+        </div>
+    </div>
+
+    <!-- Team -->
+    <div class="row text-center margin-top-40">
+        <div class="col-xs-10 col-xs-offset-1">
+          <div class="col-md-6 margin-bottom-20">
+              <div class="np_pic"></div>
+
+              <h4>Nathan Parrott</h4>
+              <p>
+                CO-FOUNDER<br/>
+              </p>
+              <p>
+                  Nathan is a technology executive with ten years experience turning entrepreneurial vision, into reality.
+                  He is passionate about technology, engineering and creating elegant and fun to use software.
+              </p>
+          </div>
+          <div class="col-md-6">
+              <div class="rok_pic"></div>
+            <h4>Rokas Stankevičius</h4>
+              <p>
+                CO-FOUNDER / DEVELOPER<br/>
+              </p>
+              <p>
+                Rokas is responsible for overall FastX performance and architecture.
+                He has over a decade of experience in creating web services and software.
+                He is passionate about crypto and DApps.
+              </p>
+          </div>
+        </div>
+    </div>
+
+    <!-- Location -->
+    <div class="row text-center">
+        <div class="col-xs-10 col-xs-offset-1">
+
+            <h3 style="margin-bottom:50px;">Location</h3>
+            <div class="row">
+                <div class="col-md-4 action-box" style="text-align:left; height:300px; padding-top: 60px;">
+                  <b>FastX</b> is headquartered in <b>Sydney, Australia.</b><br/><br/>
+                  <span class="glyphicon glyphicon-map-marker"></span>
+                  Suite 507 <br/>
+                  1/60 - 80 Walker Street<br/>
+                  North Sydney NSW 2060 Australia<br/>
+                  <br/>
+                </div>
+
+                <div class="col-md-8" style="padding:0px;">
+                    <div class="map-container">
+                      {{> googleMap name="about_map" options=about_map_options}}
+                    </div>
+                </div>
+              </div>
+      </div>
+    </div>
+
+  </div>
+
+</template>

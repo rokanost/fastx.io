@@ -1,0 +1,52 @@
+<template name="payid">
+
+    <div class="margin-top-20 text-center">
+        <div class="margin-top-20" style="line-height: 35px;font-size:14px;">
+            <img style="width:80px;" 
+                src="/images/icons/payid.png" 
+                alt="PayID" 
+            /><br />
+            <div class="container" style="max-width: 500px;">
+                <div class="row">
+                    <div class="col-xs-6 text-right">Email</div>
+                    <div class="col-xs-6 text-left"><b>pay@fastx.io</b></div>
+                    {{#if isEqual status 'partial'}}         
+                        <div class="col-xs-6 text-right">Amount paid</div>
+                        <div class="col-xs-6 text-left"><b>${{amount_paid.toFixed 2}}</b></div>
+
+                        <div class="col-xs-6 text-right">Outstanding</div>
+                        <div class="col-xs-6 text-left"><b>${{amountOutstanding.toFixed 2}}</b></div>  
+                    {{else}}
+                        <div class="col-xs-6 text-right">Amount</div>
+                        <div class="col-xs-6 text-left"><b>${{amount.toFixed 2}}</b></div>
+                    {{/if}}
+
+                    <div class="col-xs-6 text-right">Reference</div>
+                    <div class="col-xs-6 text-left"><b>{{id}}</b></div>
+                </div>
+            </div>
+        </div>
+        <div class="margin-top-10">
+            <small class="font-size-10">
+                <i class="fas fa-exclamation-triangle"></i> Enter reference as displayed, <br />
+                otherwise transaction will not be detected.<br />
+                First time payments might take up to 24 hours.
+            </small>
+        </div>
+        <br />
+        <div>
+            {{#unless isEqual status 'completed'}}
+                {{> loader_mini}}<br />
+                Waiting for your payment...<br />                
+            {{/unless}}
+
+            Status: <b>{{status.toUpperCase}}</b>
+        </div>
+
+        <br />
+        <small class="text-muted">Powered by <a href="https://fastx.io" target="_blank">fastx.io</a></small>
+
+    </div>
+
+
+</template>

@@ -1,0 +1,321 @@
+<template name="conversion">
+  {{#if isCryptoInput}}
+    <div class="text-center">
+
+      <!-- Display the relevant template based on the status -->
+      {{> Template.dynamic template=getTemplateStatus data=this}}
+
+    </div>
+  {{else}}
+
+    {{#if isEqual status_id 3}}
+      <div class="text-center">
+        {{> status_3}}
+      </div>
+    {{else}}
+      <!-- FIAT INPUT (CC FORM) -->
+      <div class="margin-top-20 text-center">
+        <h3>
+          You are purchasing<br />
+          <b>{{output_amount}} {{output_code}}</b>
+        </h3>
+
+        <div class="margin-bottom-20">
+          <img src="/images/icons/{{input_code}}.png" class="height-30">
+          <span class="glyphicon glyphicon-arrow-right margin-0-10"></span>
+          <img src="/images/icons/{{output_code}}.png" class="height-30">
+        </div>
+
+        <div>You will be charged:</div>
+        <h4><b>{{input_amount}} {{input_code}}</b></h4>
+
+        <div><small>Rate 1 {{output_code}} = {{rate}} {{input_code}}</small></div>
+
+        {{#if output_address}}
+        <div class="font-size-10 margin-top-10 break-word">
+          Your wallet address<br />
+          <b>{{output_address}}</b>
+        </div>
+        {{/if}}
+
+      </div>
+      <div class="margin-top-20">
+          {{#if showPayId}}
+            <div id="payid-block" class="text-center"></div>
+          {{else}}
+            <form id="payment">
+              <div class="text-center">
+                Paying with:
+                {{#if isMoreThan user.kyc_level 1}}
+                <!-- <div class="radio">
+                  <label>
+                    <input type="radio" name="payment_method" value="braintree" required>
+                    <i class="far fa-credit-card"></i> <b>Credit Card (verified)</b>
+                  </label>
+                </div> -->
+                {{/if}}
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="payment_method" value="payid" required>
+                    <b>PayID</b>
+                  </label>
+                </div>
+                
+              </div>
+              <div class="margin-top-20 text-center">
+                <input type="submit" class="btn btn-primary" value="Confirm">
+              </div>
+              <div class="font-size-8 text-center margin-top-10">
+                By clicking "Confirm", you have read and accepted our 
+                <a href="/disclosure" target="_blank">Terms & Conditions</a>.
+              </div>
+            </form>
+          {{/if}}
+      </div>
+    {{/if}}
+  {{/if}}
+
+  <!-- Login / Verification Modals -->
+  {{#if modalToShow}}
+    {{> Template.dynamic template=modalToShow}}
+  {{/if}}
+
+</template>
+
+
+<!-- STATUS_0 Expired or cancelled -->
+<template name="status_0">
+  <h4>Your conversion has expired..</h4>
+  <p>Please return home and create a new one.</p>
+</template>
+
+<!-- STATUS_1 Havent transferred yet -->
+<template name="status_1">
+
+  <!-- Pending transaction -->
+  {{> QRimage}}
+
+  <div class="margin-top-10">
+    <img src="/images/icons/{{input_code}}.png" class="height-30">
+    <span class="glyphicon glyphicon-arrow-right margin-0-10"></span>
+    <img src="/images/icons/{{output_code}}.png" class="height-30">
+  </div>
+  
+  <h4 class="margin-top-20 margin-bottom-5">
+    {{#if is_precise}}
+      Waiting for your transfer..
+      <span title="Required input amount might increase while your transaction is being confirmed, 
+      this would require more funds to satisfy the precise conversion process." 
+      data-toggle="tooltip" 
+      data-placement="bottom" 
+      class="glyphicon glyphicon-info-sign"></span>
+    {{else}}
+      {{#if pending_balance}}
+        <!-- Conversion type has been changed from precise to quick -->
+        Please wait..
+      {{else}}
+        Waiting for your transfer..
+      {{/if}}
+    {{/if}} 
+  </h4>
+
+  <div>
+    <b class="font-size-20">{{input_amount}} {{input_code}}</b>
+  </div>
+
+  {{#if missingPendingAmount}}
+    <div class="margin-top-10">
+      Amount detected<br />
+      <b class="font-size-20">{{pending_balance}} {{input_code}}</b><br />
+      <b class="orangered">Warning!</b> You are missing <b>{{missingPendingAmount}} {{input_code}}</b><br />
+      To continue, please transfer outstanding amount or<br />
+      <a href="#" id="changeTypeToQuick">click here</a> to change conversion type to "quick"
+    </div>
+  {{/if}}
+
+  <div class="margin-top-10">
+    To address<br />
+    <b class="break-word">{{input_address}}</b><br />
+  </div>
+
+  {{#if isEqual input_code "XRP"}}
+    <div class="margin-top-10">Destination tag</div>
+    <div class="orangered">
+      <b class="font-size-20">{{tag}}</b>
+    </div>
+    <div class="font-size-10 orangered">
+      <i class="fa fa-exclamation-triangle"></i>
+      <b>You must set destination tag!</b>
+    </div>
+  {{/if}}
+
+  <div class="margin-top-10">
+    Receive<br />
+    <b class="font-size-20">{{output_amount}} {{output_code}}</b>
+  </div>
+
+  <div class="margin-top-10">
+    Rate: <b>1 {{input_code}} = {{rate}} {{output_code}}</b>
+  </div>
+  
+  <div class="margin-top-10">To account</div>
+  {{> outputInfo}}
+
+  {{> conversionFooter}}
+</template>
+
+<!-- STATUS_2 Pending balances -->
+<template name="status_2">
+  <!-- Pending balance (detected) -->
+  <div><i class="fas fa-circle-notch secondary faa-spin animated" style="font-size: 100px;"></i></div>
+
+  <div class="margin-top-20">
+    <img src="/images/icons/{{input_code}}.png" class="height-30">
+    <span class="glyphicon glyphicon-arrow-right margin-0-10"></span>
+    <img src="/images/icons/{{output_code}}.png" class="height-30">
+  </div>
+
+  <h4 class="margin-top-20">Transfer detected</h4>
+
+  <div>
+    Waiting for confirmation from crypto miners..<br />
+    <b>{{input_amount}} {{input_code}}</b> 
+    <span class="glyphicon glyphicon-arrow-right margin-0-10"></span>
+    <b>{{output_amount}} {{output_code}}</b>
+  </div>
+
+  <div class="margin-bottom-10">
+    Transaction requires at least 1 confirmation<br />
+    <b><a href="{{providerLink input_code input_address}}" target="_blank">{{input_address}}</a></b>
+  </div>
+
+  <div class="margin-top-5 margin-bottom-10">
+    Rate: <b>1 {{input_code}} = {{rate}} {{output_code}}</b>
+  </div>
+
+  <div class="margin-top-20">
+    <a class="pdsText" href="/disclosure" target="_blank">Product Disclosure Statement</a>
+  </div>
+
+</template>
+
+<!-- STATUS_3 Confirmed balance -->
+<template name="status_3">
+  {{#if isEmpty output_sent_datetime}} 
+    <!-- Output not sent -->
+    <div><i class="far fa-check-circle secondary" style="font-size: 100px"></i></div>
+
+    <div class="margin-top-20">
+      <img src="/images/icons/{{input_code}}.png" class="height-30">
+      <span class="glyphicon glyphicon-arrow-right margin-0-10"></span>
+      <img src="/images/icons/{{output_code}}.png" class="height-30">
+    </div>
+
+    <h4 class="margin-top-20">Transfer confirmed</h4>
+
+    <div>
+      We are now converting..<br />
+      <b>{{input_amount}} {{input_code}}</b> 
+      <span class="glyphicon glyphicon-arrow-right margin-0-10 faa-passing animated"></span>
+      <b>{{output_amount}} {{output_code}}</b>
+    </div>
+
+    <div class="margin-top-5">
+      Rate: <b>1 {{input_code}} = {{rate}} {{output_code}}</b>
+    </div>
+    
+  {{else}}  
+    <!-- Output sent (completed) -->
+    <div><i class="fas fa-check-circle secondary" style="font-size: 100px;"></i></div>
+
+    <div class="margin-top-20">
+      <img src="/images/icons/{{input_code}}.png" class="height-30">
+      <span class="glyphicon glyphicon-arrow-right margin-0-10"></span>
+      <img src="/images/icons/{{output_code}}.png" class="height-30">
+    </div>
+
+    <h4 class="margin-top-20">Conversion completed</h4>
+
+    <div class="margin-bottom-20">
+      <b>{{input_amount}} {{input_code}}</b> 
+      <span class="glyphicon glyphicon-arrow-right margin-0-10"></span>
+      <b>{{output_amount}} {{output_code}}</b>
+    </div>
+
+    <div class="margin-top-5 margin-bottom-10">
+      Rate: <b>1 {{input_code}} = {{rate}} {{output_code}}</b>
+    </div>
+
+    {{> outputInfo}}
+  {{/if}}
+
+  <div class="margin-top-20">
+    <a class="pdsText" href="/disclosure" target="_blank">Product Disclosure Statement</a>
+  </div>
+
+</template>
+
+<template name="outputInfo">
+  {{#if isNotEmpty number}}
+    <!-- BANK -->
+    {{#if bank_name}}
+      <div><b>{{bank_name}}</b></div>
+    {{/if}}
+    <div>Name: <b>{{account_name}}</b></div>
+    <div>
+      {{#if bsb}}BSB: <b>{{bsb}}</b>{{/if}}
+      Account: <b>{{number}}</b>
+    </div>
+  {{/if}}
+
+  {{#if isNotEmpty bpay_biller_code}}
+    <!-- BPAY -->
+    <div>Bpay reference: <b>{{bpay_reference}}</b></div>
+    <div>Biller code: <b>{{bpay_biller_code}}</b></div>
+  {{/if}}
+
+  {{#if isNotEmpty payid}}
+    <!-- PAYID -->
+    <div>PayID: <b>{{payid}}</b></div>
+    <!-- <div>({{payid_type}})</div> -->
+  {{/if}}
+
+  {{#if isNotEmpty description}}
+    <div>Description: <b>{{description}}</b></div>
+  {{/if}}
+
+  {{#if output_address}}
+    <!-- CRYPTO -->
+    <div class="break-word">
+      <b><a href="{{providerLink output_code output_address}}" target="_blank">{{output_address}}</a></b>
+    </div>
+  {{/if}}
+ </template>
+
+<template name="conversionFooter">
+  <div class="margin-20">
+    {{> loader_mini}}
+  </div>
+  <div>
+    <a class="pdsText" href="/disclosure" target="_blank">Product Disclosure Statement</a>
+  </div>
+</template>
+
+<template name="QRimage">   
+  {{#if QRimage}}
+    <div class="qr-code-container">
+      <img src="{{QRimage}}" alt="QRcode">
+    </div>
+  {{else}}
+    <p>Generating QR code...</p>
+  {{/if}}
+</template>
+
+<template name="conversionNotFound">
+    <div class="container-fluid">
+      <div class="row text-center margin-top-10">
+        <h4>Oops! Page not found</h4>
+        <p>Looks like this conversion does not exist!</p>
+      </div>
+    </div>
+  </template>

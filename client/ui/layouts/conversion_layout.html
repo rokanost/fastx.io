@@ -1,0 +1,36 @@
+<template name="conversionLayout">
+	{{> navbar}}
+
+	{{#if uuid}}
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2">
+					<div class="bs-wizard margin-top-0">
+						{{#each steps}}
+						<div class="col-xs-4 bs-wizard-step {{class}}">
+							<div class="text-center bs-wizard-stepnum">
+								Step {{index}}
+							</div>
+							<div class="progress"><div class="progress-bar"></div></div>
+							<a href="#" class="bs-wizard-dot"></a>
+						</div>
+						{{/each}}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="margin-top-20 action-box col-md-4 col-xs-12 col-md-offset-4 col-sm-6 col-sm-offset-3">
+					<a href="/" class="btn btn-xs back-btn">
+						<span class="glyphicon glyphicon-chevron-left"></span> 
+					</a>
+					{{> yield}}
+				</div>
+			</div>
+		</div>
+	{{else}}
+		<!-- Not found -->
+		{{> yield}}
+	{{/if}}
+
+	{{> footer}}
+</template>

@@ -1,0 +1,39 @@
+{
+  "name": "fastx",
+  "private": true,
+  "scripts": {
+    "start": "meteor run --settings settings.json",
+    "debug": "meteor run --inspect --settings settings.json"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.1.2",
+    "babel-runtime": "^6.26.0",
+    "bip39": "^2.5.0",
+    "bitcoincashjs": "^0.1.10",
+    "bitcoinjs-lib": "^3.3.2",
+    "bootbot": "^1.0.16",
+    "braintree": "^2.11.0",
+    "braintree-web": "^3.34.0",
+    "ccxt": "^1.17.251",
+    "chart.js": "^2.7.2",
+    "ethereumjs-tx": "^1.3.4",
+    "ethereumjs-wallet": "^0.6.1",
+    "geoip-lite": "^1.3.2",
+    "iota.lib.js": "^0.4.7",
+    "later": "^1.2.0",
+    "lodash": "^4.17.5",
+    "meteor-node-stubs": "^0.3.3",
+    "nanocurrency": "^2.0.4",
+    "phantomjs": "^2.1.7",
+    "prerender-node": "^3.2.1",
+    "puppeteer": "^1.2.0",
+    "qrcode": "^1.2.0",
+    "ripple-lib": "^0.22.0",
+    "soap": "^0.24.0",
+    "socket.io-client": "^2.1.0",
+    "speakeasy": "^2.0.0",
+    "timeago.js": "^3.0.2",
+    "typed.js": "^2.0.6",
+    "wallet-address-validator": "^0.2.0"
+  }
+}

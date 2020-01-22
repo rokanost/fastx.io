@@ -1,0 +1,36 @@
+<template name="rates">
+
+
+  <!-- Select coin -->
+  <div class="row margin-top-20">
+    <div class="col-xs-6">
+
+        <div class="form-group">
+          <label for="cryptos-list">Select currency</label>
+          <select class="form-control" id="cryptos-list">
+            {{#each cryptos}}
+              <option value="{{crypto_code}}">{{crypto_code}} - {{crypto_name}}</option>
+            {{/each}}
+          </select>
+        </div>
+
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="row margin-top-20">
+    <div class="col-xs-12">
+      <canvas id="priceChart" class="img-responsive" style="max-width:570px; min-height:57px;"></canvas>
+    </div>
+  </div>
+
+  <!-- info -->
+  <div class="row margin-top-20">
+
+    <div class="col-xs-12">
+      <h5>Information</h5>
+      <div id="info"></div>
+    </div>
+  </div>
+
+</template>

@@ -1,0 +1,126 @@
+<!-- Australia -->
+<template name="paymentForm_AU">
+  <div class="row">
+    {{#if isEqual type "BANK"}}
+      <!-- BANK -->
+      {{#with lastConversion}}
+        <div class="col-md-12">
+          <label for="account_name">Account Name</label>
+          <input type="text" class="form-control" id="account_name" name="account_name" value="{{account_name}}" placeholder="Account Name" minlength="2" maxlength="20" required>
+        </div>
+        <div class="col-md-4">
+          <label for="bsb">BSB</label>
+          <input type="text" class="form-control" id="bsb" name="bsb" placeholder="BSB" value="{{bsb}}" onkeypress="return ((event.charCode >= 48 && event.charCode <= 57 && event.charCode != 32) || event.charCode == 13)" minlength="6" maxlength="6" required>
+        </div>
+        <div class="col-md-8">
+          <label for="number">Account Number</label>
+          <input type="text" class="form-control" id="number" name="number"  value="{{number}}" placeholder="Account #" onkeypress="return ((event.charCode >= 48 && event.charCode <= 57 && event.charCode != 32) || event.charCode == 13)" minlength="6" maxlength="10" required>
+        </div>
+        <div class="col-md-12">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description" name="description" placeholder="Description (optional)" maxlength="20">
+        </div>
+      {{/with}}
+      <div class="col-md-12">{{bank_name}}</div>
+
+    {{else if isEqual type "BPAY"}}
+      <!-- BPAY -->
+      {{#with lastConversion "BPAY"}}
+        <div class="col-md-6">
+          <label for="bpay_biller_code">Biller code</label>
+          <input type="text" class="form-control" id="bpay_biller_code" name="bpay_biller_code" value="{{bpay_biller_code}}" placeholder="BPAY Biller Code" onkeypress="return ((event.charCode >= 48 && event.charCode <= 57 && event.charCode != 32) || event.charCode == 13)" minlength="4" maxlength="8" required>
+        </div>
+        <div class="col-md-6">
+          <label for="bpay_reference">Reference</label>
+          <input type="text" class="form-control" id="bpay_reference" name="bpay_reference" value="{{bpay_reference}}" placeholder="BPAY Reference #" onkeypress="return ((event.charCode >= 48 && event.charCode <= 57 && event.charCode != 32) || event.charCode == 13)" minlength="6" maxlength="20" required>
+        </div>
+      {{/with}}
+      <div class="col-md-6">{{bpay_alias}}</div>
+
+    {{else if isEqual type "PAYID"}}
+      <!-- PAYID -->
+      {{#with lastConversion "PAYID"}}
+        <div class="col-md-12">
+          <label for="payid">PayID</label>
+          <input type="text" class="form-control" id="payid" name="payid" value="{{payid}}" placeholder="Phone / Mobile number" required>
+        </div>
+        <!-- <div class="col-md-6">
+          <label for="payid_type">Type</label>
+          <select class="form-control" id="payid_type" name="payid_type">
+            <option value="phone">Phone Number</option>
+            <option value="email">Email</option>
+          </select>
+        </div> -->
+      {{/with}}
+    {{/if}}
+  </div>
+</template>
+
+
+<!-- US -->
+<template name="paymentForm_US">
+  <div class="row">
+    {{#with lastConversion}}
+      <div class="col-md-12">
+        <input type="text" class="form-control" id="account_name" name="account_name" value="{{account_name}}" placeholder="Account Name" minlength="2" maxlength="20" required>
+      </div>
+      <div class="col-md-12">
+        <input type="text" class="form-control" id="number" name="number" value="{{number}}" placeholder="Account #" onkeypress="return ((event.charCode >= 48 && event.charCode <= 57 && event.charCode != 32) || event.charCode == 13)" minlength="6" maxlength="10" required>
+      </div>
+      <div class="col-md-12">
+        <input type="text" class="form-control" id="description" name="description" placeholder="Description" maxlength="20">
+      </div>
+    {{/with}}
+  </div>
+</template>
+
+<!-- Lithuania -->
+<template name="paymentForm_LT">
+  <div class="row">
+    {{#with lastConversion}}
+      <div class="col-md-12">
+        <input type="text" class="form-control" id="account_name" name="account_name" value="{{account_name}}" placeholder="Account Name" minlength="2" maxlength="20" required>
+      </div>
+      <div class="col-md-12">
+        <input type="text" class="form-control" id="number" name="number" value="{{number}}" placeholder="Account #" required>
+      </div>
+      <div class="col-md-12">
+        <input type="text" class="form-control" id="description" name="description" placeholder="Description" maxlength="20">
+      </div>
+    {{/with}}
+  </div>
+</template>
+
+<!-- Germany -->
+<template name="paymentForm_DE">
+  <div class="row">
+    {{#with lastConversion}}
+      <div class="col-md-12">
+        <input type="text" class="form-control" id="account_name" name="account_name" value="{{account_name}}" placeholder="Account Name" minlength="2" maxlength="20" required>
+      </div>
+      <div class="col-md-12">
+        <input type="text" class="form-control" id="number" name="number" value="{{number}}" placeholder="Account #" onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 13" minlength="6" maxlength="10" required>
+      </div>
+      <div class="col-md-12">
+        <input type="text" class="form-control" id="description" name="description" placeholder="Description" maxlength="20">
+      </div>
+    {{/with}}
+  </div>
+</template>
+
+
+<!-- CRYPTO -->
+<template name="cryptoOutputForm">
+  <div class="row">
+    {{#with lastWalletUsed}}
+      <div class="col-md-12">
+        <label for="crypto_address">Wallet address</label> <!--<a href="#"><span class="glyphicon glyphicon-question-sign"></span></a>-->
+        <input type="text" class="form-control" id="crypto_address" name="crypto_address" value="{{crypto_address}}" placeholder="Your {{../codeTo}} wallet address" required>
+        {{#if isCryptoInput}}
+          <label for="refund_address">Refund address</label>
+          <input type="text" class="form-control" id="refund_address" name="refund_address" value="{{refund_address}}" placeholder="Refund {{../codeFrom}} address (optional)">
+        {{/if}}
+      </div>
+    {{/with}}
+  </div>
+</template>

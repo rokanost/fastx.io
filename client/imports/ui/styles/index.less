@@ -1,0 +1,135 @@
+@import "../../../lib/custom.bootstrap.import.less";
+
+[index-page] {
+
+  .action-btns a.btn {
+    padding: 20px;
+    font-size: 25px;
+    border-radius: 3px;
+    width: 120px;
+    font-weight: 700;
+  }
+
+  .ellipsis{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .crypto-btns a, .currency-crypto-btns a {
+    line-height: 35px;
+    width: 100%;
+    margin: 5px 0;
+    img {
+      width: 20%;
+    }
+  }
+
+  #subTitle {
+    font-weight: 700;
+  }
+
+  .payment_forms {
+    padding: 20px;
+    background: #FFF;
+  }
+
+  #switch {
+    position: absolute;
+    font-size: 20px;
+    top: -15px;
+    left: 3px;
+    -webkit-transform: rotate(-90deg);
+    color: #143b54a8;
+  }
+
+  .highlight{
+    box-shadow:0px 0px 3px @brand-secondary;
+  }
+
+  h1 {
+    font-size: 4.4rem;
+  }
+
+  .margin-10{
+    margin-top:10px;
+  }
+
+  .my-conversion {
+    cursor: pointer;
+    background-color: @brand-primary;
+    color:white;
+    border-radius:5px;
+    padding: 5px 0;
+    margin:5px 0;
+    img {
+      width: 15px;
+      padding-bottom:2px;
+    }
+  }
+
+  .conversion-list {
+    background-color: @brand-primary;
+    color:white;
+    border-radius:5px;
+    padding: 5px 0;
+    margin:5px 0;
+    img {
+      width: 15px;
+      padding-bottom:2px;
+    }
+  }
+  .conversion {
+    padding: 5px 0;
+    margin:5px 0;
+    border: 1px solid #ececec;
+    border-radius: 5px;
+  }
+
+  .modal-header {
+    padding: 5px 15px;
+  }
+
+  .payment-icon{
+    margin-top: -30px;
+    margin-left: 9px;
+    height: 30px;
+    position: absolute;
+  }
+
+  @media(min-width:700px){
+    .center{
+      text-align:center;
+    }
+  }
+
+  .pdsText{
+    font-size:0.7em;
+    color:white;
+    font-weight:bold;
+    :hover{
+      color:white;
+    }
+  }
+
+  .action-box {
+    padding: 15px;
+  }
+
+  .small-text{
+    font-size:12px !important;
+  }
+  .small-text.indent{
+    margin-left:18px;
+  }
+
+  .expiry {
+    background-color: #ff5d5d;
+    padding: 5px;
+    font-weight: 700;
+    width: auto;
+    right: 15px;
+    position: absolute;
+  }
+
+}

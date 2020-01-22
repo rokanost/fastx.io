@@ -1,0 +1,38 @@
+<template name="serviceStatus">
+
+  <div>
+
+    <!-- Heading -->
+    <div class="row text-center margin-top-20">
+      <div class="col-xs-10 col-xs-offset-1">
+        <h4>Current Service Status</h4>
+        <i>Crypto nodes (updated every minute)</i>
+      </div>
+    </div>
+
+    <!-- blurb -->
+    <div class="row text-center margin-top-40">
+        <div class="col-xs-6 col-xs-offset-3 action-box">
+          <ul class="list-group">
+            {{#each statuses}}
+              <li class="list-group-item text-left">
+                <b>{{name}}</b>
+                {{#if pending}}
+                  <span class="pull-right">Checking..</span>
+                {{else}}
+                  {{#if on}}
+                    <span style="color:green" class="pull-right glyphicon glyphicon-ok-sign"></span>
+                  {{else}}
+                    <span style="color:red" class="pull-right glyphicon glyphicon-remove-sign"></span>
+                  {{/if}}
+                {{/if}}
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+    </div>
+
+
+  </div>
+
+</template>

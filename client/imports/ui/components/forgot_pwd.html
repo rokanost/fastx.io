@@ -1,0 +1,15 @@
+<template name="forgot_pwd">
+    <form id="reset-pwd-form" class="text-center">
+      <div class="input-group input-group-lg">
+        <span class="input-group-addon"><i class="far fa-envelope-open"></i></span>
+        <input id="forgot_email" type="email" class="form-control" placeholder="Please enter your email" required>
+      </div>
+      <br/>
+      <input id="reset-pwd-form" type="submit" class="btn btn-primary" style="width:70%;" value="Reset your password" data-loading-text="Loading..">
+      <br />
+      <p id="resetSent" class="text-center margin-top-10" hidden>
+        <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span>
+        If your email matches an account, you will receive a password reset email shortly.
+      </p>
+    </form>
+  </template>

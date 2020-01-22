@@ -1,0 +1,48 @@
+{
+    "public": {
+      "RECAPTCHA_PUBLIC_KEY": "",
+      "run_crons": true,
+      "persistent_session": {
+        "default_method": "persistent"
+      }
+    },
+    "private": {
+      "RECAPTCHA_PRIVATE_KEY": "",
+      "BT_PRIVATE_KEY": "",
+      "BT_MERCHANT_ID": "",
+      "MNEMONIC_PRIVATE_SEED": "",
+      "RIPPLE_SECRET": "",
+      "SMTP_USERNAME": "",
+      "SMTP_PASSWORD": "",
+      "SMTP_SERVER": "",
+      "SMTP_PORT": "",
+      "ACX_API_KEY": "",
+      "ACX_SECRET": "",
+      "BTC_MARKETS_API_KEY": "",
+      "BINANCE_API_KEY": "",
+      "BINANCE_SECRET": "",
+      "BTC_MARKETS_SECRET": "",
+      "MYSQL_HOST": "",
+      "MYSQL_PORT": "",
+      "MYSQL_USERNAME": "",
+      "MYSQL_PASSWORD": "",
+      "MYSQL_DATABASE": "",
+      "ST_GEORGE_USERNAME": "",
+      "ST_GEORGE_PASSWORD": "",
+      "ST_GEORGE_PIN": "",
+      "ANZ_CRN": "",
+      "ANZ_PASSWORD": "",
+      "IMAGE_VECTOR": "",
+      "NEXMO_TO": "",
+      "NEXMO_API_KEY": "",
+      "NEXMO_API_SECRET": "",
+      "PRERENDER_TOKEN": "",
+      "FB_ACCESS_TOKEN": "",   
+      "FB_VERIFY_TOKEN": "",
+      "FB_APP_SECRET": "",
+      "ADMIN_KEY": "",
+      "ETHERSCAN_API_KEY": "",
+      "INFURA_API_KEY": "",
+      "FIXER_API_KEY": ""
+    }
+  }

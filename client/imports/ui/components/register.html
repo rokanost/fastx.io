@@ -1,0 +1,30 @@
+<template name="registerForm">
+  {{#if isRegistrationCompleted}}
+    <div class="text-center">
+      <p class="lead">
+        <span class="glyphicon glyphicon-ok-circle" style="color:green;"></span>
+        We have sent a confirmation link to your email.
+        If it doesn’t appear within a few minutes, check your spam folder.
+      </p>
+    </div>
+  {{else}}
+    <form id="register-form" autocomplete="off">
+      <div class="input-group input-group-lg">
+        <!-- Envelope icon -->
+        <span class="input-group-addon"><i class="far fa-envelope-open"></i></span>
+        <!-- Email -->
+        <input id="email" type="email" class="form-control" placeholder="Email" required aria-label="blank">
+      </div>
+
+      {{> pwd_change_template}}
+
+      <br />
+      <div class="text-center">
+        <input id="registerBtn" type="submit" class="btn btn-primary" style="width:50%;" value="Register" data-loading-text="Validating..">
+      </div>
+      <!--<div class="text-center margin-top-5">
+        <a href="/login">Already registered? Login</a>
+      </div>-->
+    </form>
+  {{/if}}
+</template>

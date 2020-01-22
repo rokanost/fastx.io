@@ -1,0 +1,21 @@
+<template name="admin">
+
+  <h2>Conversions</h2>
+  <div class="row">
+    {{> reactiveTable settings=conversions}}
+  </div>
+
+  <h2>Exchanges</h2>
+  <div class="row">
+    {{> reactiveTable settings=exchange_balances}}
+  </div>
+
+  <h2>Banks</h2>
+  <div class="row">
+    {{> reactiveTable settings=bank_balances}}
+  </div>
+
+  <h2>Users & Documents</h2>
+  {{> manual_verify}}
+  
+</template>

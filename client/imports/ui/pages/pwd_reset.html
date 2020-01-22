@@ -1,0 +1,52 @@
+<template name="pwd_reset">
+    <div pwd_reset-page class="row welcome">
+        <!-- Left half -->
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-offset-2 col-md-10">
+                    <h2>{{heading}}</h2>
+                    <p class="lead">{{text}}</p>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <!-- Right half -->
+        <div class="col-md-6">
+          <div class="row action-box">
+            {{>pwd_change_template}}
+            <div class="margin-top-20" style="text-align:center;">
+              <input id="rstPwdBtn" class="btn btn-primary" data-loading-text="Saving password..." style="width:50%;" value="Save" disabled>
+            </div>
+          </div>
+        </div>
+    </div>
+</template>
+
+
+<template name="pwd_change_template">
+
+  <div class="input-group input-group-lg">
+    <!-- Padlock icon -->
+    <span class="input-group-addon"><i class="fas fa-key"></i></span>
+
+    <!-- Password -->
+    <div class="input-group input-group-lg" style="width:100%;">
+        <input type="{{#if hidePassword}}password{{else}}text{{/if}}" style="border-radius:0;" id="password" placeholder="Password" class="form-control" aria-label="eye">
+        <div class="input-group-btn">
+            {{#if hidePassword}}
+                <button id="eye" type="button" class="btn btn-default">
+                    <i class="far fa-eye-slash"></i>
+                </button>
+            {{else}}
+                <button id="eye" type="button" class="btn btn-default">
+                    <i class="fas fa-eye"></i>
+                </button>
+            {{/if}}
+        </div>
+    </div>
+  </div>
+  <div class="text-center" id="passwordTips" style="color:red;font-weight: bold;"></div>
+  <div class="margin-top-20" id="captcha">{{> reCAPTCHA}}</div>
+
+</template>
